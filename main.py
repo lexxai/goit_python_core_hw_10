@@ -8,16 +8,28 @@ class AddressBook(UserDict):
 
 class Record:
 
-    def __init__(self, name: str, phone = None, email = None) -> None:
-        self.name = Field(name)
-        self.email = Field(email)
-        self.phone = Phone(phone)
+    def __init__(self, name: str, phone=None, email=None, address=None) -> None:
+        self.name = Name(name)
+        self.email = Email(email)
+        self.address = Address(address)
+        self.phone = []
+        self.add_phone(phone)
+        
+    def add_phone(self, phone) -> None:
+        if (phone):
+            if (isinstance(phone, list)):
+                self.phone.extend(phone)
+            else:
+                self.phone.append(phone)
 
-    def info(self):
-        return {"name": self.name.value, "phone": self.phone.get_list()}
+    def remove_phone(self, phone: str) -> None:
+        self.phone.remove(phone)
+
+    def get_phones(self) -> str:
+        return ";".join(self.phone)
 
     def __str__(self):
-        return f'{{"name": {self.name.value}, "phone": {self.phone.value}, "email": {self.email.value}}}'
+        return f'"name": {self.name.value}, "phone": {self.get_phones()}, "email": {self.email.value}, "address": {self.address.value}'
 
 
 class Field:
@@ -25,46 +37,27 @@ class Field:
         self.value = value
    
 
-class Name:
-    def __init__(self, value: str) -> None:
-        self.name = Field(value)
+class Name(Field):
+    ...
        
-class Address:
-    def __init__(self, value: str) -> None:
-        self.address = Field(value)
 
-class Phone:
-    
-    def __init__(self, phones = None) -> None:
-        self.value = list()
-        if (phones):
-            self.add(phones)
-
-    def add(self, phones) -> None:
-        if (phones):
-            if (isinstance(phones, list)):
-                for phone in phones:
-                    self.value.append(phone)
-            else:
-                self.value.append(phones)
-
-    def remove(self, phone: str) -> None:
-        self.value.remove(phone)
+class Address(Field):
+    ...
 
 
-    def get_list(self) -> list:
-        return self.value
+class Email(Field):
+    ...
 
-    def __repr__(self) -> list:
-        return self.value
 
-    def __str__(self) -> str:
-        return ",".join(self.value)
+class Phone(Field):
+    ...
+
 
 
 ab = AddressBook()
 rec = Record("Jon1",["000-0001","000-0002"])
-rec.phone.add("000-0003")
+rec.add_phone("000-0003")
+rec.remove_phone("000-0001")
 print(rec)
 
 ab.add_record(rec)
