@@ -5,9 +5,6 @@
 ### input
 
 ```
-Bot init
-Enter your command:help
-List of commands: hello, add, change, phone, show all, help, good bye, close, exit
 Enter your command:add Jon1 000-0001
 Done
 Enter your command:show all
@@ -35,4 +32,9 @@ Jon1, 000-0001;000-0002
 Jon2, 001-0002
 Enter your command:change Jon1 001-0003
 Done
+Enter your command:show all
+Jon1, 001-0003
+Jon2, 001-0002
+Enter your command:exit
+Good bye
 ```
