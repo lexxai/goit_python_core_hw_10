@@ -30,7 +30,7 @@ class Record:
         return ";".join(self.phone)
 
     def __str__(self):
-        return f'"name": {self.name.value}, "phone": {self.get_phones()}, "email": {self.email.value}, "address": {self.address.value}'
+        return f'name: {self.name.value}, phone: {self.get_phones()}, email: {self.email.value}, address: {self.address.value}'
 
 
 class Field:
@@ -71,5 +71,5 @@ if __name__ == "__main__":
     ab['Jon1'].address.value="Jon1 Home Street"
     ab['Jon2'].email.value = "Jon2@email.com"
 
-    for k,v in ab.items():
-        print(k, v)
+    for v in ab.values():
+        print( v)
