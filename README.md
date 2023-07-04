@@ -1,7 +1,9 @@
 # goit_python_core_hw_10
 
 ## test
+
 ### input
+
 ```
     ab = AddressBook()
     rec = Record("Jon1",["000-0001","000-0002"])
@@ -19,13 +21,14 @@
     ab['Jon1'].address.value="Jon1 Home Street"
     ab['Jon2'].email.value = "Jon2@email.com"
 
-    for k,v in ab.items():
-        print(k, v)
+    for v in ab.values():
+        print(v)
 ```
 
 ### result
+
 ```
-Jon1 "name": Jon1, "phone": 000-0002;000-0003, "email": None, "address": Jon1 Home Street
-Jon2 "name": Jon2, "phone": 200-0001;200-0002, "email": Jon2@email.com, "address": None
-Jon3 "name": Jon3, "phone": 300-0001, "email": Jon3@email.com, "address": None
+name: Jon1, phone: 000-0002;000-0003, email: None, address: Jon1 Home Street
+name: Jon2, phone: 200-0001;200-0002, email: Jon2@email.com, address: None
+name: Jon3, phone: 300-0001, email: Jon3@email.com, address: None
 ```
