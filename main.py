@@ -30,13 +30,17 @@ class Record:
         return ";".join(self.phone)
 
     def __str__(self):
-        return  f'name: {self.name.value}, phone: {self.get_phones()}, '\
-                f'email: {self.email.value}, address: {self.address.value}'
+        return  f'name: {self.name}, phone: {self.get_phones()}, '\
+                f'email: {self.email}, address: {self.address}'
 
 
 class Field:
+    
     def __init__(self, value: str) -> None:
         self.value = value
+    
+    def __str__(self):
+        return str(self.value)
    
 
 class Name(Field):
@@ -48,7 +52,10 @@ class Address(Field):
 
 
 class Email(Field):
-    ...
+    def __init__(self, value: str) -> None:
+        if not (value and '@' in value):
+            value = None
+        super().__init__(value)
 
 
 class Phone(Field):
@@ -57,7 +64,7 @@ class Phone(Field):
 
 if __name__ == "__main__":
     ab = AddressBook()
-    rec = Record("Jon1",["000-0001","000-0002"])
+    rec = Record("Jon1",["000-0001","000-0002"],email="bademail")
     rec.add_phone("000-0003")
     #rec.remove_phone("000-0001")
     #print(rec)
