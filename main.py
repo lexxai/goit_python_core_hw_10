@@ -29,7 +29,7 @@ class Record:
     def get_phones(self) -> str:
         return ";".join(self.phone)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return  f'name: {self.name}, phone: {self.get_phones()}, '\
                 f'email: {self.email}, address: {self.address}'
 
@@ -39,7 +39,7 @@ class Field:
     def __init__(self, value: str) -> None:
         self.value = value
     
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.value)
    
 
