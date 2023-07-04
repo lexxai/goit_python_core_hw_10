@@ -30,7 +30,8 @@ class Record:
         return ";".join(self.phone)
 
     def __str__(self):
-        return f'name: {self.name.value}, phone: {self.get_phones()}, email: {self.email.value}, address: {self.address.value}'
+        return  f'name: {self.name.value}, phone: {self.get_phones()}, '\
+                f'email: {self.email.value}, address: {self.address.value}'
 
 
 class Field:
