@@ -5,30 +5,34 @@
 ### input
 
 ```
-    ab = AddressBook()
-    rec = Record("Jon1",["000-0001","000-0002"])
-    rec.add_phone("000-0003")
-    #rec.remove_phone("000-0001")
-    #print(rec)
-
-    ab.add_record(rec)
-    rec = Record("Jon2", ["200-0001", "200-0002"])
-    ab.add_record(rec)
-    rec = Record("Jon3", "300-0001", "Jon3@email.com")
-    ab.add_record(rec)
-
-    ab['Jon1'].remove_phone("000-0001")
-    ab['Jon1'].address.value="Jon1 Home Street"
-    ab['Jon2'].email.value = "Jon2@email.com"
-
-    for v in ab.values():
-        print(v)
-```
-
-### result
-
-```
-name: Jon1, phone: 000-0002;000-0003, email: None, address: Jon1 Home Street
-name: Jon2, phone: 200-0001;200-0002, email: Jon2@email.com, address: None
-name: Jon3, phone: 300-0001, email: Jon3@email.com, address: None
+Bot init
+Enter your command:help
+List of commands: hello, add, change, phone, show all, help, good bye, close, exit
+Enter your command:add Jon1 000-0001
+Done
+Enter your command:show all
+Jon1, 000-0001
+Enter your command:add Jon2 001-0001
+Done
+Enter your command:show all
+Jon1, 000-0001
+Jon2, 001-0001
+Enter your command:add Jon1 000-0002
+Done
+Enter your command:show all
+Jon1, 000-0001;000-0002
+Jon2, 001-0001
+Enter your command:phone Jon1
+000-0001;000-0002
+Enter your command:phone Jon2
+001-0001
+Enter your command:change Jon2 001-0002
+Done
+Enter your command:phone Jon2
+001-0002
+Enter your command:show all
+Jon1, 000-0001;000-0002
+Jon2, 001-0002
+Enter your command:change Jon1 001-0003
+Done
 ```
