@@ -10,8 +10,7 @@ class AddressBook(UserDict):
         return self.data[key]
 
     def remove_record(self, key):
-        if key in self.data:
-            del self.data[key]
+        del self.data[key]
 
 class Field:
 

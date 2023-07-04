@@ -49,6 +49,13 @@ def handler_phone(*args) -> str:
     user = args[0]
     return user_data[user].get_phones()
 
+@input_error
+def handler_delete(*args) -> str:
+    user = args[0]
+    user_data.remove_record(user)
+    return "Done"
+    
+
 
 def handler_show_all(*args) -> str:
     if len(user_data.keys()):
@@ -79,6 +86,7 @@ COMMAND_EXIT = ("good bye", "close", "exit")
 COMMANDS = {
     "hello": handler_hello,
     "add": handler_add,
+    "delete": handler_delete,
     "change": handler_change,
     "phone": handler_phone,
     "show all": handler_show_all,
@@ -88,6 +96,7 @@ COMMANDS = {
 COMMANDS_HELP = {
     "hello": "Just hello",
     "add": "Add user and phone. Required username and phone.",
+    "delete": "Delete user's record. Required username.",
     "change": "Change user's phone. Required username and phone.",
     "phone": "Show user's phone. Required username.",
     "show all": "Show all user phone numbers.",

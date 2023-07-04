@@ -35,6 +35,17 @@ Done
 Enter your command:show all
 Jon1, 001-0003
 Jon2, 001-0002
+Enter your command:help delete
+Delete user's record. Required username.
+Enter your command:delete Jon2222
+Sorry, there are not enough parameters or their value may be incorrect. Please use the help for more information.
+Enter your command:show all
+Jon1, 001-0003
+Jon2, 001-0002
+Enter your command:delete Jon2
+Done
+Enter your command:show all
+Jon1, 001-0003
 Enter your command:exit
 Good bye
 ```
