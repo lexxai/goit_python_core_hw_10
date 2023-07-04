@@ -28,8 +28,11 @@ def input_error(func):
 def handler_add(*args) -> str:
     user = args[0]
     phone = args[1]
-    rec = ab.Record(ab.Name(user), ab.Phone(phone))
-    user_data.add_record(rec)
+    if user in user_data:
+        user_data.get_record(user).add_phone(ab.Phone(phone))
+    else:
+        rec = ab.Record(ab.Name(user), ab.Phone(phone))
+        user_data.add_record(rec)
     return "Done"
 
 
