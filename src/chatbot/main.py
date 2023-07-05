@@ -1,14 +1,14 @@
-import addressbook as ab
+import chatbot.addressbook as ab
 from functools import wraps
 
 
 def parse_input(command_line: str) -> tuple[str, list]:
     for command in COMMANDS:
         if command_line.lower().startswith(command):
-            args = command_line.lstrip(command).strip().split(" ", 1)
-            args = (s.strip() for s in args)
+            args = command_line.lstrip(command).strip().split(" ", 10)
+            args = [s.strip() for s in args]
             return command, args
-    return command_line.lower(), ()
+    return command_line.lower(), []
 
 
 def input_error(func):
@@ -27,30 +27,39 @@ def input_error(func):
 @input_error
 def handler_add(*args) -> str:
     user = args[0]
-    phone = args[1]
+    args[1]
+    phone = [ ab.Phone(p) for p in args[1:]]
     if user in user_data:
-        user_data.get_record(user).add_phone(ab.Phone(phone))
+        user_data.get_record(user).add_phone(phone)
     else:
-        rec = ab.Record(ab.Name(user), ab.Phone(phone))
+        rec = ab.Record(ab.Name(user), phone)
         user_data.add_record(rec)
     return "Done"
 
 
 @input_error
-def handler_change(*args) -> str:
+def handler_change_phone(*args) -> str:
     user = args[0]
-    phone = args[1]
-    user_data[user].change_phone(ab.Phone(phone))
+    old_phone = args[1]
+    new_phone = args[2]
+    user_data[user].change_phone(ab.Phone(old_phone), ab.Phone(new_phone))
     return "Done"
 
 
 @input_error
-def handler_phone(*args) -> str:
+def handler_show_phone(*args) -> str:
     user = args[0]
     return user_data[user].get_phones()
 
 @input_error
-def handler_delete(*args) -> str:
+def handler_delete_phone(*args) -> str:
+    user = args[0]
+    phone = args[1]
+    user_data[user].remove_phone(ab.Phone(phone))
+    return "Done"    
+
+@input_error
+def handler_delete_record(*args) -> str:
     user = args[0]
     user_data.remove_record(user)
     return "Done"
@@ -81,28 +90,39 @@ def handler_help(*args) -> str:
         return COMMANDS_HELP.get(command,  f"Help for this command '{command}' is not yet available")
 
 
-COMMAND_EXIT = ("good bye", "close", "exit")
+COMMAND_EXIT = ("good bye", "close", "exit", "q", "quit")
 
 COMMANDS = {
     "hello": handler_hello,
     "add": handler_add,
-    "delete": handler_delete,
-    "change": handler_change,
-    "phone": handler_phone,
+    "delete user": handler_delete_record,
+    "change phone": handler_change_phone,
+    "delete phone": handler_delete_phone,
+    "show phone": handler_show_phone,
     "show all": handler_show_all,
-    "help": handler_help
+    "list": handler_show_all,
+    "help": handler_help,
+    "?": handler_help,
 }
 
 COMMANDS_HELP = {
     "hello": "Just hello",
-    "add": "Add user and phone. Required username and phone.",
-    "delete": "Delete user's record. Required username.",
-    "change": "Change user's phone. Required username and phone.",
-    "phone": "Show user's phone. Required username.",
-    "show all": "Show all user phone numbers.",
+    "add": "Add user's phone or multiple phones separated by space. Required username and phone.",
+    "delete user": "Delete ALL records of user. Required username.",
+    "delete": "Can be: delete user, delete phone",
+    "change": "Can be: change phone",
+    "change phone": "Change user's phone. Required username, old phone, new phone",
+    "delete phone": "Delete user's phone. Required username, phone",
+    "show": "Can be: show phone, show all",
+    "show phone": "Show user's phones. Required username.",
+    "show all": "Show all user's record.",
+    "list": "Show all user's record.",   
     "help": "List of commands  and their description.",
+    "?": "List of commands and their description. Also you can use '?' for any command as parameter",
     "exit": "Exit of bot.",
     "close": "Exit of bot.",
+    "quit": "Exit of bot.",
+    "q": "Exit of bot.",
     "good bye": "Exit of bot."
 }
 
@@ -122,10 +142,15 @@ def main():
         else:
             command, args = parse_input(user_input)
             try:
-                result = COMMANDS[command](*args)
-            except KeyError:
-                print("Your command is not recognized, try to enter other command. "
-                      "To get a list of all commands, you can use the 'help' command")
+                if len(args) == 1 and  args[0] == "?" :
+                    result = COMMANDS['help'](command)
+                else:
+                    result = COMMANDS[command](*args)
+            except (KeyError):
+                result = COMMANDS['help'](command)
+                print(result)
+                # print("Your command is not recognized, try to enter other command. "
+                #       "To get a list of all commands, you can use the 'help' command")
             else:
                 if result:
                     print(result)

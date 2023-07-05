@@ -17,6 +17,12 @@ class Field:
     def __init__(self, value: str) -> None:
         self.value = value
 
+    def __eq__(self, other):
+        return self.value == other
+
+    def __repr__(self):
+        return self.value
+
     def __str__(self) -> str:
         return str(self.value)
 
@@ -48,7 +54,7 @@ class Record:
         self.name = name
         self.email = email
         self.address = address
-        self.phone = []
+        self.phones = []
         self.add_phone(phone)
 
     def add(self, field: Field) -> bool:
@@ -61,24 +67,26 @@ class Record:
    
     def add_phone(self, phone: Phone) -> None:
         if (phone):
+            #phones_value = [i.value for i in self.phones]
             if (isinstance(phone, list)):
-                self.phone.extend(phone)
-            else:
-                self.phone.append(phone)
+                for ph in phone:
+                    if ph not in self.phones:
+                        self.phones.append(ph)
+            elif phone not in self.phones:
+                self.phones.append(phone)
             return True
             
-    def change_phone(self, phone: Phone) -> None:
-        if (phone):
-            self.phone.clear()
-            self.add_phone(phone)
+    def change_phone(self, old_phone: Phone, new_phone: Phone) -> None:
+        if old_phone and new_phone:
+            self.remove_phone(old_phone)
+            self.add_phone(new_phone)
 
     def remove_phone(self, phone: Phone) -> None:
-        if phone in self.phone:
-            self.phone.remove(phone)
-            return True
+        self.phones.remove(phone)
+        return True
 
     def get_phones(self) -> str:
-        return ";".join([ str(ph) for ph in self.phone])
+        return ";".join([ str(ph) for ph in self.phones])
 
     def __str__(self) -> str:
         return f'name: {self.name}, phone: {self.get_phones()}, '\
