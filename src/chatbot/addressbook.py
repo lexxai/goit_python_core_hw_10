@@ -14,6 +14,11 @@ class AddressBook(UserDict):
 
     def __repr__(self):
         return str(self)
+
+    def get_csv(self):
+        result = [Record.get_csv_header()]
+        result.extend([ str(r.get_csv_row()) for r in self.data.values() ])
+        return "\n".join(result)
     
     def __str__(self):
         result = map(str, self.data.values())
@@ -93,6 +98,15 @@ class Record:
 
     def get_phones(self) -> str:
         return ";".join([ str(ph) for ph in self.phones])
+
+    def get_csv_row(self) -> str:
+        cols = [str(self.name),self.get_phones(),str(self.email),str(self.address)]
+        return ",".join(cols)
+    
+    @staticmethod
+    def get_csv_header() -> str:
+        cols = ["name","phone","email","address"]
+        return ",".join(cols)
 
     def __repr__(self):
         return str(self)

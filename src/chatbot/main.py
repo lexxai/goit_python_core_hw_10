@@ -72,6 +72,12 @@ def handler_show_all(*args) -> str:
     else:
         return "No users found, maybe you want to add them first?"
 
+def handler_show_csv(*args) -> str:
+    if any(a_book.keys()):
+        return a_book.get_csv()
+    else:
+        return "No users found, maybe you want to add them first?"
+
 
 def handler_hello(*args) -> str:
     return "How can I help you?"
@@ -97,6 +103,7 @@ COMMANDS = {
     "delete phone": handler_delete_phone,
     "show phone": handler_show_phone,
     "show all": handler_show_all,
+    "show csv": handler_show_csv,   
     "list": handler_show_all,
     "help": handler_help,
     "?": handler_help,
@@ -113,6 +120,7 @@ COMMANDS_HELP = {
     "show": "Can be: show phone, show all",
     "show phone": "Show user's phones. Required username.",
     "show all": "Show all user's record.",
+    "show csv": "Show all user's record in csv format",    
     "list": "Show all user's record.",   
     "help": "List of commands  and their description.",
     "?": "List of commands and their description. Also you can use '?' for any command as parameter",
