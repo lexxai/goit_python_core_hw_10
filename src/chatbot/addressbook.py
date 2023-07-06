@@ -21,7 +21,7 @@ class Field:
         return self.value == other
 
     def __repr__(self):
-        return self.value
+        return str(self)
 
     def __str__(self) -> str:
         return str(self.value)
