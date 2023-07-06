@@ -28,12 +28,12 @@ def input_error(func):
 def handler_add(*args) -> str:
     user = args[0]
     args[1]
-    phone = [ ab.Phone(p) for p in args[1:]]
-    if user in user_data:
-        user_data.get_record(user).add_phone(phone)
+    phone = [ ab.Phone(p) for p in args[1:] ]
+    if user in a_book:
+        a_book.get_record(user).add_phone(phone)
     else:
         rec = ab.Record(ab.Name(user), phone)
-        user_data.add_record(rec)
+        a_book.add_record(rec)
     return "Done"
 
 
@@ -42,36 +42,33 @@ def handler_change_phone(*args) -> str:
     user = args[0]
     old_phone = args[1]
     new_phone = args[2]
-    user_data[user].change_phone(ab.Phone(old_phone), ab.Phone(new_phone))
+    a_book.get_record(user).change_phone(ab.Phone(old_phone), ab.Phone(new_phone))
     return "Done"
 
 
 @input_error
 def handler_show_phone(*args) -> str:
     user = args[0]
-    return user_data[user].get_phones()
+    return a_book.get_record(user).get_phones()
 
 @input_error
 def handler_delete_phone(*args) -> str:
     user = args[0]
     phone = args[1]
-    user_data[user].remove_phone(ab.Phone(phone))
+    a_book.get_record(user).remove_phone(ab.Phone(phone))
     return "Done"    
 
 @input_error
 def handler_delete_record(*args) -> str:
     user = args[0]
-    user_data.remove_record(user)
+    a_book.remove_record(user)
     return "Done"
     
 
 
 def handler_show_all(*args) -> str:
-    if len(user_data.keys()):
-        result = []
-        for user, record in user_data.items():
-            result.append(f"{user}, {record.get_phones()}")
-        return "\n".join(result)
+    if any(a_book.keys()):
+        return a_book
     else:
         return "No users found, maybe you want to add them first?"
 
@@ -126,7 +123,7 @@ COMMANDS_HELP = {
     "good bye": "Exit of bot."
 }
 
-user_data = ab.AddressBook()
+a_book = ab.AddressBook()
 
 
 def main():
