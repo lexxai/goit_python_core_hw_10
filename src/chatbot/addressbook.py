@@ -12,6 +12,13 @@ class AddressBook(UserDict):
     def remove_record(self, key):
         del self.data[key]
 
+    def __repr__(self):
+        return str(self)
+    
+    def __str__(self):
+        result = map(str, self.data.values())
+        return "\n".join(result)
+
 class Field:
 
     def __init__(self, value: str) -> None:
@@ -67,7 +74,6 @@ class Record:
    
     def add_phone(self, phone: Phone) -> None:
         if (phone):
-            #phones_value = [i.value for i in self.phones]
             if (isinstance(phone, list)):
                 for ph in phone:
                     if ph not in self.phones:
@@ -88,7 +94,17 @@ class Record:
     def get_phones(self) -> str:
         return ";".join([ str(ph) for ph in self.phones])
 
+    def __repr__(self):
+        return str(self)
+
     def __str__(self) -> str:
-        return f'name: {self.name}, phone: {self.get_phones()}, '\
-            f'email: {self.email}, address: {self.address}'
+        cols = [f"name: {self.name}"]
+        phone = self.phones
+        if len(phone):
+            cols.append(f"phones: {self.get_phones()}")
+        if self.email:
+            cols.append(f"email: {self.email}")
+        if self.address:
+            cols.append(f"address: {self.address}")    
+        return ", ".join(cols)
 
